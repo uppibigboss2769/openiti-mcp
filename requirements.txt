@@ -1,0 +1,4 @@
+mcp
+openiti
+fastapi
+uvicorn
