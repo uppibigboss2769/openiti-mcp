@@ -1,7 +1,9 @@
-from mcp.server.fastmcp import FastMCP
+import os
+
+from mcp.server import MCPServer
 from openiti.helper import funcs
 
-mcp = FastMCP(
+mcp = MCPServer(
     "OpenITI",
     instructions="Access and search texts from the OpenITI corpus."
 )
@@ -20,8 +22,7 @@ def read_openiti_text(url: str) -> str:
 def read_openiti_header(url: str) -> str:
     """Read metadata/header from an OpenITI text."""
     try:
-        header = funcs.read_header(url)
-        return str(header)
+        return str(funcs.read_header(url))
     except Exception as e:
         return f"Error reading OpenITI header: {e}"
 
@@ -38,7 +39,7 @@ def get_sections(url: str) -> str:
 
 @mcp.tool()
 def find_section_title(url: str, position: int) -> str:
-    """Find the section title at a character position in an OpenITI text."""
+    """Find the section title at a character position."""
     try:
         return str(funcs.find_section_title(url, position))
     except Exception as e:
@@ -46,8 +47,6 @@ def find_section_title(url: str, position: int) -> str:
 
 
 if __name__ == "__main__":
-    import os
-
     port = int(os.environ.get("PORT", "10000"))
 
     mcp.run(
